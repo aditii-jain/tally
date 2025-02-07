@@ -3,7 +3,7 @@ import { TallyLogo, MaterialsIcon, OrdersIcon, ProductsIcon, IntegrationsIcon, L
 
 function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [activePage, setActivePage] = useState('materials');
+  const [activeItem, setActiveItem] = useState('materials');
 
   const navItems = [
     { id: 'logo', label: 'Tally', icon: TallyLogo },
@@ -13,6 +13,14 @@ function Sidebar() {
     { id: 'integrations', label: 'Integrations', icon: IntegrationsIcon },
   ];
 
+  const handleNavClick = (id) => {
+    if (id === 'logo') {
+      setIsExpanded(!isExpanded);
+    } else {
+      setActiveItem(id);
+    }
+  };
+
   return (
     <aside className={`sidebar ${isExpanded ? 'expanded' : ''}`}>
       
@@ -20,13 +28,13 @@ function Sidebar() {
         {navItems.map(item => (
           <button
             key={item.id}
-            onClick={item.id === 'logo' ? () => setIsExpanded(!isExpanded) : undefined}
+            onClick={() => handleNavClick(item.id)}
             data-id={item.id}
-            className={`nav-item ${activePage === item.id ? 'active' : ''}`}
+            className={`nav-item ${activeItem === item.id ? 'active' : ''}`}
           >
             <span className="icon">
               {typeof item.icon === 'function' ? (
-                item.icon({ isActive: activePage === item.id })
+                item.icon({ isActive: activeItem === item.id })
               ) : (
                 item.icon
               )}
